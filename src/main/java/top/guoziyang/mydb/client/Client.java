@@ -11,7 +11,9 @@ public class Client {
     }
 
     public byte[] execute(byte[] stat) throws Exception {
+        //stat是控制台输入的sql语句
         Package pkg = new Package(stat, null);
+        //RoundTripper发送并接收处理结果
         Package resPkg = rt.roundTrip(pkg);
         if(resPkg.getErr() != null) {
             throw resPkg.getErr();

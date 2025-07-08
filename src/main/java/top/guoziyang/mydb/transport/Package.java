@@ -1,7 +1,7 @@
 package top.guoziyang.mydb.transport;
 
 /**
- * 数据封装
+ * 数据格式定义
  */
 public class Package {
     byte[] data; // 存放数据信息

@@ -14,6 +14,11 @@ import top.guoziyang.mydb.transport.Package;
 import top.guoziyang.mydb.transport.Packager;
 import top.guoziyang.mydb.transport.Transporter;
 
+/**
+ * 服务器类
+ * 监听指定端口号
+ * 接收客户端连接请求并为每个连接创建一个线程处理
+ */
 public class Server {
     private int port;
     TableManager tbm;
@@ -40,6 +45,7 @@ public class Server {
                 //2.调用accept()方法 阻塞 等待客户端连接
                 Socket socket = ss.accept();
                 Runnable worker = new HandleSocket(socket, tbm);
+                //3.提交到线程池处理连接
                 tpe.execute(worker);
             }
         } catch(IOException e) {
@@ -63,8 +69,11 @@ class HandleSocket implements Runnable {
 
     @Override
     public void run() {
+        //客户端的 网络地址 和 端口号
         InetSocketAddress address = (InetSocketAddress)socket.getRemoteSocketAddress();
         System.out.println("Establish connection: " + address.getAddress().getHostAddress()+":"+address.getPort());
+
+        //新建一个packager接收和发送数据
         Packager packager = null;
         try {
             Transporter t = new Transporter(socket);
@@ -79,10 +88,13 @@ class HandleSocket implements Runnable {
             }
             return;
         }
+
+        //执行sql语句
         Executor exe = new Executor(tbm);
         while(true) {
             Package pkg = null;
             try {
+                //接收命令
                 pkg = packager.receive();
             } catch(Exception e) {
                 break;
@@ -91,6 +103,7 @@ class HandleSocket implements Runnable {
             byte[] result = null;
             Exception e = null;
             try {
+                //执行sql
                 result = exe.execute(sql);
             } catch (Exception e1) {
                 e = e1;
@@ -98,6 +111,7 @@ class HandleSocket implements Runnable {
             }
             pkg = new Package(result, e);
             try {
+                //发送执行结果
                 packager.send(pkg);
             } catch (Exception e1) {
                 e1.printStackTrace();

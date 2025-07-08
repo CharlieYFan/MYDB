@@ -9,12 +9,15 @@ public class Shell {
         this.client = client;
     }
 
+    /**
+     * 控制台模拟shell面板
+     */
     public void run() {
         Scanner sc = new Scanner(System.in);
         try {
             while(true) {
                 System.out.print(":> ");
-                String statStr = sc.nextLine();
+                String statStr = sc.nextLine(); //读取输入
                 if("exit".equals(statStr) || "quit".equals(statStr)) {
                     break;
                 }

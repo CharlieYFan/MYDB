@@ -15,6 +15,9 @@ import top.guoziyang.mydb.backend.vm.VersionManager;
 import top.guoziyang.mydb.backend.vm.VersionManagerImpl;
 import top.guoziyang.mydb.common.Error;
 
+/**
+ * 服务端启动器
+ */
 public class Launcher {
 
     public static final int port = 9999;
@@ -52,10 +55,19 @@ public class Launcher {
         dm.close();
     }
 
+    /**
+     * 打开数据库
+     * @param path
+     * @param mem
+     */
     private static void openDB(String path, long mem) {
+        //事务管理器
         TransactionManager tm = TransactionManager.open(path);
+        //
         DataManager dm = DataManager.open(path, mem, tm);
+        //
         VersionManager vm = new VersionManagerImpl(tm, dm);
+        //
         TableManager tbm = TableManager.open(path, vm, dm);
         new Server(port, tbm).start();
     }

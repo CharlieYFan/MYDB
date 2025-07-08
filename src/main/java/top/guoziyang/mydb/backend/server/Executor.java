@@ -14,6 +14,9 @@ import top.guoziyang.mydb.backend.tbm.BeginRes;
 import top.guoziyang.mydb.backend.tbm.TableManager;
 import top.guoziyang.mydb.common.Error;
 
+/**
+ * 执行器
+ */
 public class Executor {
     private long xid;
     TableManager tbm;

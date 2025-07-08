@@ -7,7 +7,7 @@ import com.google.common.primitives.Bytes;
 import top.guoziyang.mydb.common.Error;
 
 /**
- * 加密解码
+ * 编码解码
  */
 public class Encoder {
 
@@ -18,7 +18,7 @@ public class Encoder {
             if(err.getMessage() != null) {
                 msg = err.getMessage();
             }
-            //(加密) 将一个字节 1 和字符串 msg 的字节表示进行拼接，生成一个新的字节数组
+            //(编码) 将一个字节 1 和字符串 msg 的字节表示进行拼接，生成一个新的字节数组
             /**
              * 假设 msg = "Hello"，那么：
              * new byte[]{1} → [0x01]
@@ -35,18 +35,25 @@ public class Encoder {
         }
     }
 
+    /**
+     * 解码
+     * byte[] data 是ASCII码字节数组
+     * @param data
+     * @return
+     * @throws Exception
+     */
     public Package decode(byte[] data) throws Exception {
         if(data.length < 1) {
             throw Error.InvalidPkgDataException;
         }
         if(data[0] == 0) {
             /**
-             * (解密) 0x00 是正常数据标识
+             * (解码) 0x00 是正常数据标识
              */
             return new Package(Arrays.copyOfRange(data, 1, data.length), null);
         } else if(data[0] == 1) {
             /**
-             * (解密) 0x01 是错误err标识
+             * (解码) 0x01 是错误err标识
              * Arrays.copyOfRange 取到的是加密时加入的msg
              */
             return new Package(null, new RuntimeException(new String(Arrays.copyOfRange(data, 1, data.length))));
