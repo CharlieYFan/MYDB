@@ -26,6 +26,8 @@ public class Server {
     public void start() {
         ServerSocket ss = null;
         try {
+            // java.net.ServerSocket服务端使用
+            //1.创建ServerSocket并绑定端口
             ss = new ServerSocket(port);
         } catch (IOException e) {
             e.printStackTrace();
@@ -35,6 +37,7 @@ public class Server {
         ThreadPoolExecutor tpe = new ThreadPoolExecutor(10, 20, 1L, TimeUnit.SECONDS, new ArrayBlockingQueue<>(100), new ThreadPoolExecutor.CallerRunsPolicy());
         try {
             while(true) {
+                //2.调用accept()方法 阻塞 等待客户端连接
                 Socket socket = ss.accept();
                 Runnable worker = new HandleSocket(socket, tbm);
                 tpe.execute(worker);

@@ -1,8 +1,11 @@
 package top.guoziyang.mydb.transport;
 
+/**
+ * 数据封装
+ */
 public class Package {
-    byte[] data;
-    Exception err;
+    byte[] data; // 存放数据信息
+    Exception err; // 存放错误提示信息
 
     public Package(byte[] data, Exception err) {
         this.data = data;

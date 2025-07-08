@@ -10,6 +10,10 @@ import java.net.Socket;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
+/**
+ * 数据传输器，封装BufferedReader、BufferedWriter
+ * 传输编码之后的数据
+ */
 public class Transporter {
     private Socket socket;
     private BufferedReader reader;
@@ -21,6 +25,11 @@ public class Transporter {
         this.writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
     }
 
+    /**
+     * 发送数据方法
+     * @param data
+     * @throws Exception
+     */
     public void send(byte[] data) throws Exception {
         String raw = hexEncode(data);
         writer.write(raw);
@@ -41,7 +50,25 @@ public class Transporter {
         socket.close();
     }
 
+    /**
+     * 将字节数组 buf 编码为十六进制字符串，并在末尾添加换行符 \n
+     * (将二进制数据转为可打印的十六进制字符串)
+     * @param buf
+     * @return
+     */
     private String hexEncode(byte[] buf) {
+        /**
+         * byte[] bytes = "Hello".getBytes();  --》
+         * byte[] bytes = new byte[]{0x01, 0x48, 0x65, 0x6C, 0x6C, 0x6F};
+         * return "0148656c6c6f\n"
+         * 01 → 对应字节 0x01
+         * 48 → 对应字符 'H'
+         * 65 → 对应字符 'e'
+         * 6c → 对应字符 'l'
+         * 6c → 再次 'l'
+         * 6f → 'o'
+         * 最后加一个换行符 \n  --》 这样接收方可以通过 BufferedReader.readLine() 按行读取每条消息。
+         */
         return Hex.encodeHexString(buf, true)+"\n";
     }
 
