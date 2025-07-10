@@ -13,7 +13,7 @@ import top.guoziyang.mydb.common.Error;
 
 public class TransactionManagerImpl implements TransactionManager {
 
-    // XID文件头长度
+    // XID文件头长度 - 记录这个XID文件管理的事务数量
     static final int LEN_XID_HEADER_LENGTH = 8;
     // 每个事务的占用长度
     private static final int XID_FIELD_SIZE = 1;

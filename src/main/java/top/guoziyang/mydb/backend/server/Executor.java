@@ -18,7 +18,7 @@ import top.guoziyang.mydb.common.Error;
  * 执行器
  */
 public class Executor {
-    private long xid;
+    private long xid; //事务标识符 https://www.dbs724.com/258715.html
     TableManager tbm;
 
     public Executor(TableManager tbm) {
@@ -33,6 +33,12 @@ public class Executor {
         }
     }
 
+    /**
+     * 执行sql 1 - 事务管理
+     * @param sql
+     * @return
+     * @throws Exception
+     */
     public byte[] execute(byte[] sql) throws Exception {
         System.out.println("Execute: " + new String(sql));
         Object stat = Parser.Parse(sql);
@@ -62,6 +68,12 @@ public class Executor {
         }
     }
 
+    /**
+     * 执行sql 2 - 正式执行sql
+     * @param stat
+     * @return
+     * @throws Exception
+     */
     private byte[] execute2(Object stat) throws Exception {
         boolean tmpTransaction = false;
         Exception e = null;

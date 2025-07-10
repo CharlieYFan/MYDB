@@ -10,6 +10,9 @@ import java.nio.channels.FileChannel;
 import top.guoziyang.mydb.backend.utils.Panic;
 import top.guoziyang.mydb.common.Error;
 
+/**
+ * 事务管理器模块
+ */
 public interface TransactionManager {
     long begin();
     void commit(long xid);

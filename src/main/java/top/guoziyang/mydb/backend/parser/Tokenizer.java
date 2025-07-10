@@ -46,6 +46,9 @@ public class Tokenizer {
         return res;
     }
 
+    /**
+     * 移动pos指针
+     */
     private void popByte() {
         pos ++;
         if(pos > stat.length) {
@@ -53,6 +56,10 @@ public class Tokenizer {
         }
     }
 
+    /**
+     * 根据pos位置取字节数组
+     * @return
+     */
     private Byte peekByte() {
         if(pos == stat.length) {
             return null;
@@ -80,6 +87,7 @@ public class Tokenizer {
         }
         byte b = peekByte();
         if(isSymbol(b)) {
+            //跳过特殊符号
             popByte();
             return new String(new byte[]{b});
         } else if(b == '"' || b == '\'') {
@@ -135,6 +143,11 @@ public class Tokenizer {
         return sb.toString();
     }
 
+    /**
+     * 判断语句中 当前pos位置的byte是否为特扶符合
+     * @param b
+     * @return
+     */
     static boolean isSymbol(byte b) {
         return (b == '>' || b == '<' || b == '=' || b == '*' ||
 		b == ',' || b == '(' || b == ')');

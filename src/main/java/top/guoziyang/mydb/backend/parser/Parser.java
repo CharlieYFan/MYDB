@@ -17,9 +17,14 @@ import top.guoziyang.mydb.backend.parser.statement.Update;
 import top.guoziyang.mydb.backend.parser.statement.Where;
 import top.guoziyang.mydb.common.Error;
 
+/**
+ * 解释器
+ */
 public class Parser {
+
     public static Object Parse(byte[] statement) throws Exception {
         Tokenizer tokenizer = new Tokenizer(statement);
+        //获取操作符
         String token = tokenizer.peek();
         tokenizer.pop();
 

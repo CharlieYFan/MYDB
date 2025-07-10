@@ -10,6 +10,9 @@ import top.guoziyang.mydb.backend.parser.statement.Update;
 import top.guoziyang.mydb.backend.utils.Parser;
 import top.guoziyang.mydb.backend.vm.VersionManager;
 
+/**
+ * 表管理器
+ */
 public interface TableManager {
     BeginRes begin(Begin begin);
     byte[] commit(long xid) throws Exception;
